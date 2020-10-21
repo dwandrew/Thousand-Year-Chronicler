@@ -11,6 +11,7 @@ export class Dashboard extends Component {
     }
 
     componentDidMount(){
+        this.props.checkSession()
         this.props.getAllPublishedImmortals()
     }
     

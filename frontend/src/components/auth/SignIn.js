@@ -14,7 +14,9 @@ export class SignIn extends Component {
             username: '',
             password: ''
         })
+        console.log('a')
         this.props.createSession(this.state)
+        console.log('b')
         this.props.history.push('/')
     }
 

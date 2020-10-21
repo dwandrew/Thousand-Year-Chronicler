@@ -42,6 +42,7 @@ export const createSession = (userData) => {
                 password: userData.password
             }
         }
+        console.log('c')
         fetch(LOCALURL + 'login', {
             credentials: 'same-origin', 
             method: 'POST',
@@ -53,10 +54,12 @@ export const createSession = (userData) => {
             })
             .then(resp => resp.json())
             .then(user => {
+                console.log('d')
                 if(user.errors)
                  return dispatch({type: "CREATE_SESSION_ERROR", errors: user.errors})
                 else
                 return dispatch({type: "CREATE_SESSION", user})
+                
                 
             })
             .catch((errors) => {
@@ -72,7 +75,6 @@ export const destroySession = (getPublishedJournals, history) =>{
         .then(resp => resp.json())
         .then(logoutData =>{
             dispatch({type: "DESTROY_SESSION", logoutData})
-            debugger
             getPublishedJournals()
             history.push('/')
         })

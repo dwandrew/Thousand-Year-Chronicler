@@ -1,13 +1,16 @@
+import { useFirebase, useFirestore } from 'react-redux-firebase'
+
 const LOCALURL = 'http://localhost:3001/'
+
 
 function loadingImmortal() {
     return { type: "LOADING_IMMORTALS" }
  } 
 
 export const createImmortal = (immortal, user_id) => {
-    return (dispatch, {getFirebase, getFirestore}) => {
-     
-        const firestore = getFirestore()
+    return (dispatch) => {
+        const firestore = useFirestore()
+        
         firestore.collection('immortals').add({
             name: immortal.name,
             description: immortal.description,

@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {applyMiddleware, createStore, compose} from 'redux'
+import {applyMiddleware, createStore} from 'redux'
 import RootReducer from './reducers/RootReducer'
 import { Provider } from 'react-redux'
 import thunk from 'redux-thunk';
@@ -11,9 +11,10 @@ import {composeWithDevTools} from 'redux-devtools-extension'
 
 //firestore
 import firebase from 'firebase/app'
-import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
-import { createFirestoreInstance,  getFirestore} from 'redux-firestore'
+import { ReactReduxFirebaseProvider} from 'react-redux-firebase'
+import { createFirestoreInstance} from 'redux-firestore'
 import fbConfig from './config/fbConfig'
+
 
 const store = createStore( RootReducer, composeWithDevTools(applyMiddleware(thunk)))
 ;
@@ -21,9 +22,8 @@ const rrfProps = {
   firebase,
    config: fbConfig,
    dispatch: store.dispatch,
-   createFirestoreInstance // <- needed if using firestore
- }
-
+   createFirestoreInstance 
+}
 
 // ReactDOM.render(
 //   <React.StrictMode>

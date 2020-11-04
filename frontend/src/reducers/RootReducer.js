@@ -8,10 +8,14 @@ import MemoryReducer from './MemoryReducer'
 import ExperienceReducer from './ExperienceReducer'
 import { combineReducers } from 'redux'
 import JournalReducer from './JournalReducer'
+import { firebaseReducer } from 'react-redux-firebase'
+import { firestoreReducer } from 'redux-firestore'
 
 
 
 const rootReducer =  combineReducers ({
+    firebase: firebaseReducer,
+    firestore:firestoreReducer,
     auth: AuthReducer,
     immortal: ImmortalReducer,
     skills: SkillReducer,

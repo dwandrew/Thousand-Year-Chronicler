@@ -9,7 +9,11 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension'
 
-const store = createStore(RootReducer, composeWithDevTools(applyMiddleware(thunk)))
+//firestore
+import { getFirestore } from 'redux-firestore'
+import { getFirebase } from 'react-redux-firebase'
+
+const store = createStore(RootReducer, composeWithDevTools(applyMiddleware(thunk.withExtraArgument({getFirestore, getFirebase}))))
 
 ReactDOM.render(
   <React.StrictMode>

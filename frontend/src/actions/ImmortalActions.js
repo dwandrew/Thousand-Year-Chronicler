@@ -5,39 +5,56 @@ function loadingImmortal() {
  } 
 
 export const createImmortal = (immortal, user_id) => {
-    return (dispatch) => {
-        const strongParams = {
-            immortal: {
-                name: immortal.name,
-                description: immortal.description,
-                publish_journal: false
-            },
-            errors: ""
+    return (dispatch, {getFirebase, getFirestore}) => {
+     
+        const firestore = getFirestore()
+        firestore.collection('immortals').add({
+            name: immortal.name,
+            description: immortal.description,
+            publish_journal: false,
+            user_id: user_id
+        })
+        .then(() => {dispatch({type: "CREATE_IMMORTAL", immortal})})
+        .catch((errors) => {
+            console.log(errors)
+            dispatch({type: "CREATE_IMMORTAL_ERROR", errors})
+        })
 
-        }
-        let address = LOCALURL + 'users/' + user_id + '/immortals'
 
-        fetch(address, {
-            method: 'POST',
-            headers: {
-            "Accept": "application/json",
-            "Content-Type": "application/json"
-            },
-            body: JSON.stringify(strongParams)
-            })
-            .then(resp => resp.json())
-            .then(immortal => {
 
-                if(immortal.errors)
-                 return dispatch({type: "CREATE_IMMORTAL_ERROR", errors: immortal.errors})
-                else
-                return dispatch({type: "CREATE_IMMORTAL", immortal})
+
+        // let address = LOCALURL + 'users/' + user_id + '/immortals'
+
+        // fetch(address, {
+        //     method: 'POST',
+        //     headers: {
+        //     "Accept": "application/json",
+        //     "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify(strongParams)
+        //     })
+        //     .then(resp => resp.json())
+        //     .then(immortal => {
+
+        //         if(immortal.errors)
+        //          return dispatch({type: "CREATE_IMMORTAL_ERROR", errors: immortal.errors})
+        //         else
+        //         return dispatch({type: "CREATE_IMMORTAL", immortal})
                 
-            })
-            .catch((errors) => {
-                console.log(errors)
-                dispatch({type: "CREATE_IMMORTAL_ERROR", errors})
-            })
+        //     })
+        //     .catch((errors) => {
+        //         console.log(errors)
+        //         dispatch({type: "CREATE_IMMORTAL_ERROR", errors})
+        //     })
+        // const strongParams = {
+        //     immortal: {
+        //         name: immortal.name,
+        //         description: immortal.description,
+        //         publish_journal: false
+        //     },
+        //     errors: ""
+
+        // }
 
     }
 } 

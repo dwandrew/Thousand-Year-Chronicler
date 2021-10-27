@@ -51,6 +51,6 @@ class CharactersController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def character_params
-      params.require(:character).permit(:immortal_id, :dead, :is_immortal, :name, :description)
+      params.require(:character).permit(:id, :immortal_id, :dead, :is_immortal, :name, :description)
     end
 end

@@ -30,6 +30,7 @@ export class Dashboard extends Component {
        
         if (this.props.auth.logged_in && this.props.immortal.loading ){
         const immortals = this.props.immortal.immortals
+    
         let user_id =  this.props.auth.user.user.id
         return ( 
         <div className = "dashboard">

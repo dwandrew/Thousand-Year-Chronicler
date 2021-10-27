@@ -1,114 +1,117 @@
-import React, { Component } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { createCharacter, editCharacter, getCharacters, deleteCharacter } from '../../actions/CharacterActions'
 import { withRouter } from 'react-router-dom'
 
 
-export class CreateCharacter extends Component {
-    state = {
-        name: '',
-        is_immortal: false,
-        dead: false,
-        description: '',
-        editing: false, 
-        id: ''
+const CreateCharacter =(props) => {
+
+    const [editing, setEditing] = useState(props.editing)
+    const [character, setCharacter] = useState({
+            name: '',
+            dead: false,
+            is_immortal: false,
+            description: '',
+            id: ''  
+    })
+
+    useEffect(()=> {
+        if(editing){
+            setCharacter(props.editData)
+        }
+    }, [editing])
+
+    useEffect(()=> {
+        console.log("props", props)
+    }, [])
+
+    const handleSubmit = (e) => {
+        props.createCharacter(character, props.immortal.id)
+        props.characterSubmit(character)
+        props.getCharacters(props.immortal.id)
+        props.setEditing(false)
+        props.history.push('/immortals/' + props.immortal.id)
     }
 
-    componentDidMount(){
-        if (this.props.editing){
-            let {editData} = this.props
-            this.setState({
-                editing: true,
-                name: editData.name,
-                is_immortal: editData.is_immortal,
-                dead: editData.dead,
-                description: editData.description,
-                id: editData.id
-            })
-
-        }
-    }
-
-    handleChange = (e) => {
-        if (e.target.name === 'is_immortal' || e.target.name === 'dead'){
-            let value = e.target.checked
-            this.setState({
-                [e.target.name]: value
-            })
-        }
-        else{
-        this.setState({
-            [e.target.name] : e.target.value
-        })
-        }
-
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault()
-        this.props.createCharacter(this.state, this.props.immortal.id)
-        this.props.characterSubmit(this.state)
-        this.setState({
+    const deleteCharacter = e => {
+        props.deleteCharacter(character.id)
+        props.getCharacters(props.immortal.id)
+        setCharacter({
             name: '',
             dead: false,
             is_immortal: false,
             description: '',
             id: ''  
         })
-        this.props.history.push('/immortals/' + this.props.immortal.id)
+
+        props.history.push('/immortals/' + props.immortal.id)
     }
 
-    deleteCharacter = e => {
-        this.props.deleteCharacter(this.state.id)
-        this.props.getCharacters(this.props.immortal.id)
-        
-        this.setState({
-            name: '',
-            dead: false,
-            is_immortal: false,
-            description: '',
-            id: ''  
-        })
-        this.props.history.push('/immortals/' + this.props.immortal.id)
-    }
-
-    handleEdit = (e) => {
+    const handleEdit = (e) => {
+        console.log("editing:", character)
         e.preventDefault()
-        if (this.state.name !== ''){this.props.editCharacter(this.state)}
-        this.props.handleParentEdit()
-        this.props.getCharacters(this.props.immortal.id)
-        this.setState({
-            editing: !this.state.editing
-        }
-        )
-        this.props.history.push('/immortals/' + this.props.immortal.id)
+        if (character.name !== '') {props.editCharacter(character)}
+        props.setCharacter(character)
+        props.getCharacters(props.immortal.id)
+        props.setEditing(false)
+        props.history.push('/immortals/' + props.immortal.id)
     }
-
-
-
-    render(){
         return (
         <div className = "create_form">
-            <form id = 'character_form' onSubmit = {!this.state.editing ? this.handleSubmit : this.handleEdit}>
+            <form id = 'character_form' 
+            // onSubmit = {!editing ? handleSubmit : handleEdit}
+            >
             <label htmlFor='name'>Character Name</label>
-            <input type= 'text' name= 'name' value= {this.state.name} onChange = {this.handleChange} placeholder = "enter character name"/>
+            <input type= 'text' name= 'name' 
+            value= {character.name} 
+            onChange = {(e) => {setCharacter({
+                ...character,
+                name: e.target.value
+            })}
+            } 
+            placeholder = "enter character name"/>
             <br/>
             <label htmlFor='description'>Character Description</label>
-            <textarea name= 'description' value= {this.state.description} onChange = {this.handleChange} placeholder = "enter character description"/>
+            <textarea name= 'description' value= {character.description} onChange = {(e) =>setCharacter({
+                ...character,
+                description: e.target.value
+            })}
+            placeholder = "enter character description"/>
             <br/>
             <label htmlFor='is_immortal'>Character is Immortal?</label>
-            <input type="checkbox" name= 'is_immortal' value = {this.state.is_immortal} checked = {this.state.is_immortal} onChange = {this.handleChange}/>
+            <input type="checkbox" name= 'is_immortal' 
+            value = {character.is_immortal} 
+            checked = {character.is_immortal} 
+            onChange = {(e) => setCharacter({
+                ...character,
+                is_immortal: e.target.checked
+            })}/>
             <br/>
             <label htmlFor='dead'>Character is Dead?</label>
-            <input type="checkbox" name= 'dead' value = {this.state.dead} checked = {this.state.dead} onChange = {this.handleChange}/>
+            <input type="checkbox" name= 'dead' 
+            value = {character.dead} 
+            checked = {character.dead} 
+            onChange = {(e) => setCharacter({
+                ...character,
+                dead: e.target.checked
+            })}/>
             <br/>
-            <button type='submit'>{this.state.editing ? "Edit Character" : "Add Character"}</button>
-            <button onClick = {this.deleteCharacter}> Delete Character </button>
+            <button onClick = {(e) =>{
+                e.preventDefault()
+                if(editing) {
+                    handleEdit(e)
+                    }
+                else{
+                    handleSubmit(e)
+                    }
+                }}>{editing ? "Edit Character" : "Add Character"}</button>
+            <button onClick = {(e) => {
+                e.preventDefault()
+                deleteCharacter(e)}}
+                > Delete Character </button>
             </form>
         </div>
         )
-
-    }
 
 }
 

@@ -29,32 +29,13 @@ const CreateCharacter =(props) => {
         props.createCharacter(character, props.immortal.id)
         props.characterSubmit(character)
         props.getCharacters(props.immortal.id)
-        props.setEditing(false)
-        props.history.push('/immortals/' + props.immortal.id)
-    }
-
-    const deleteCharacter = e => {
-        props.deleteCharacter(character.id)
-        props.getCharacters(props.immortal.id)
         setCharacter({
             name: '',
             dead: false,
             is_immortal: false,
             description: '',
             id: ''  
-        })
-
-        props.history.push('/immortals/' + props.immortal.id)
-    }
-
-    const handleEdit = (e) => {
-        console.log("editing:", character)
-        e.preventDefault()
-        if (character.name !== '') {props.editCharacter(character)}
-        props.setCharacter(character)
-        props.getCharacters(props.immortal.id)
-        props.setEditing(false)
-        props.history.push('/immortals/' + props.immortal.id)
+    })
     }
         return (
         <div className = "create_form">
@@ -98,17 +79,10 @@ const CreateCharacter =(props) => {
             <br/>
             <button onClick = {(e) =>{
                 e.preventDefault()
-                if(editing) {
-                    handleEdit(e)
-                    }
-                else{
                     handleSubmit(e)
-                    }
-                }}>{editing ? "Edit Character" : "Add Character"}</button>
-            <button onClick = {(e) => {
-                e.preventDefault()
-                deleteCharacter(e)}}
-                > Delete Character </button>
+
+                }}>{"Add Character"}</button>
+          
             </form>
         </div>
         )

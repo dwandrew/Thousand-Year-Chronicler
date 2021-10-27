@@ -90,14 +90,8 @@ export const CharacterSummary=(props) => {
                 })}/>
                 <br/>
                 <button onClick = {(e) =>{
-                    e.preventDefault()
-                    if(editing) {
                         handleEdit(e)
-                        }
-                    else{
-                        handleSubmit(e)
-                        }
-                    }}>{editing ? "Edit Character" : "Add Character"}</button>
+                    }}> Edit Character </button>
                 <button onClick = {(e) => {
                     e.preventDefault()
                     deleteCharacter(e)}}

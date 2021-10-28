@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import { createCharacter, editCharacter, getCharacters, deleteCharacter } from '../../actions/CharacterActions'
 import { withRouter } from 'react-router-dom'
@@ -52,7 +52,6 @@ export const CharacterSummary=(props) => {
         return (
             <div className = "create_form">
                 <form id = 'character_form' 
-                // onSubmit = {!editing ? handleSubmit : handleEdit}
                 >
                 <label htmlFor='name'>Character Name</label>
                 <input type= 'text' name= 'name' 

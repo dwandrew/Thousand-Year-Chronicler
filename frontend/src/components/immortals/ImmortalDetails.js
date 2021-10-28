@@ -139,7 +139,7 @@ export class ImmortalDetails extends Component {
                     <li className='skills-list-edit' ><SkillList skills={this.props.skills.skills} /></li>
                     <li className='skills-list-form'><CreateSkill state = {this.state} skillSubmit={this.handleChildSubmit}/></li>
                     <li className = 'characters-list-edit' ><CharacterList characters = {this.props.characters.characters}/></li>
-                    <li className = 'characters-list-form'><CreateCharacter state = {this.state} characterSubmit={this.handleChildSubmit}/></li>
+                    <li className = 'characters-list-form'><CreateCharacter state = {this.state} characterSubmit={this.handleChildSubmit} ceaseEditing ={this.ceaseEditing}/></li>
                     <li className='mark-list-edit' ><MarkList marks = {this.props.marks.marks}/></li>
                     <li className='mark-list-form'><CreateMark state = {this.state} markSubmit={this.handleChildSubmit}/></li>
                     <li className = 'resource-list-edit' ><ResourceList resources = {this.props.resources.resources}/></li>

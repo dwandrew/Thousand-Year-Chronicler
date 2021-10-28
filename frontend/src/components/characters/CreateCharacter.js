@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { createCharacter, editCharacter, getCharacters, deleteCharacter } from '../../actions/CharacterActions'
 import { withRouter } from 'react-router-dom'
@@ -6,7 +6,6 @@ import { withRouter } from 'react-router-dom'
 
 const CreateCharacter =(props) => {
 
-    const [editing, setEditing] = useState(props.editing)
     const [character, setCharacter] = useState({
             name: '',
             dead: false,
@@ -14,16 +13,6 @@ const CreateCharacter =(props) => {
             description: '',
             id: ''  
     })
-
-    useEffect(()=> {
-        if(editing){
-            setCharacter(props.editData)
-        }
-    }, [editing])
-
-    useEffect(()=> {
-        console.log("props", props)
-    }, [])
 
     const handleSubmit = (e) => {
         props.createCharacter(character, props.immortal.id)
@@ -35,13 +24,12 @@ const CreateCharacter =(props) => {
             is_immortal: false,
             description: '',
             id: ''  
-    })
+        })
+        // props.ceaseEditing()
     }
         return (
         <div className = "create_form">
-            <form id = 'character_form' 
-            // onSubmit = {!editing ? handleSubmit : handleEdit}
-            >
+            <form id = 'character_form'>
             <label htmlFor='name'>Character Name</label>
             <input type= 'text' name= 'name' 
             value= {character.name} 
@@ -82,7 +70,6 @@ const CreateCharacter =(props) => {
                     handleSubmit(e)
 
                 }}>{"Add Character"}</button>
-          
             </form>
         </div>
         )
